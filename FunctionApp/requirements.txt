@@ -1,0 +1,5 @@
+pandas
+numpy
+scikit-learn
+azure-functions
+azure-storage-blob
