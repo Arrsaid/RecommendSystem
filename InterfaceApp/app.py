@@ -37,7 +37,7 @@ def call_recommendation_api(user_id: int, endpoint: str) -> List[Dict[str, Any]]
 
     recs = payload.get("recommendations") or []
 
-    # Normalisation minimaliste (types + tri score desc + top N)
+    # Normalisation minimaliste 
     df = pd.DataFrame(recs)
     if df.empty:
         return []
@@ -63,8 +63,11 @@ def main() -> None:
     st.set_page_config(page_title="Recommandation de contenu", layout="centered")
 
     st.title("🔮 Recommandations d’articles")
-    st.caption("Interface de démonstration — Azure Functions • historique d’interactions")
-
+    # st.caption("Interface de démonstration — Azure Functions • historique d’interactions")
+    st.markdown( """ Cette application Streamlit utilise un service Azure Functions pour 
+                fournir des recommandations d'articles à partir de votre historique d'interactions.
+                Entrez votre identifiant utilisateur ci‑dessous pour découvrir de nouveaux contenus. """ 
+                )
     st.subheader("Obtenir des recommandations")
     user_id = st.number_input(
         label="Identifiant utilisateur",
@@ -96,13 +99,6 @@ def main() -> None:
         )
         df_recs["Score"] = pd.to_numeric(df_recs["Score"], errors="coerce").round(6)
         st.dataframe(df_recs, use_container_width=True)
-
-        # Petites métriques utiles
-        c1, c2 = st.columns(2)
-        with c1:
-            st.metric("Nombre de recommandations", len(df_recs))
-        with c2:
-            st.metric("Score maximum", f"{df_recs['Score'].max():.6f}")
 
         st.success("Recommandations générées avec succès !")
 
