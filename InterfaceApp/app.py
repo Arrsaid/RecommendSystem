@@ -49,7 +49,7 @@ def call_recommendation_api(user_id: int, endpoint: str) -> List[Dict[str, Any]]
     # typage & nettoyage
     df["article_id"] = pd.to_numeric(df["article_id"], errors="coerce").astype("Int64")
     df["score"] = pd.to_numeric(df["score"], errors="coerce")
-    df = df.dropna(subset=["article_id", "score"])
+    #df = df.dropna(subset=["article_id", "score"])
 
     # tri décroissant puis top N
     df = df.sort_values("score", ascending=False).head(TOP_N)
